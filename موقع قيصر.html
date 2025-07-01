@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+  <meta charset="UTF-8" />
+  <title>القيصر | منتجات رقمية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #222;
+      direction: rtl;
+    }
+    header {
+      background: #fff;
+      color: #000;
+      padding: 1rem;
+      text-align: start;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .lang-switch {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      background: #f0f0f0;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+    }
+    .product {
+      background: #fff;
+      padding: 1.5rem 1rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+    }
+    .product img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+    .product h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+    .product p {
+      margin: 0.2rem 0;
+      font-weight: bold;
+    }
+    .buy {
+      margin-top: 1rem;
+      background: #0070f3;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #f9f9f9;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span>متجر القيصر</span>
+    <button class="lang-switch" onclick="toggleLang()">EN</button>
+  </header>
+  <div class="container">
+    <h2 id="subtitle"> متجر لبيع المنتجات الرقميه</h2>
+    <p id="description">ليش هيك عروضنا قويه؟ ارحم من في الارض يرحمك من في السماء</p>
+    <div class="products" id="product-list"></div>
+  </div>
+  <footer>
+    <p> © 2025 جميع الحقوق محفوظة لموقع القيصر </p>
+  </footer>
+  <script>
+const products = [
+  {
+    id: 1,
+    name: { ar: "أصنع المال", en: "Make money" },
+    price: "5.00",
+    image: "",
+    paypalName: "Make money"
+  },
+  {
+    id: 2,
+    name: { ar: "اخرج من الحفره", en: "Get out of the hole" },
+    price: "5.00",
+    image: "https://i.imgur.com/efgh5678.png",
+    paypalName: "Get out of the hole"
+  },
+  {
+    id: 3,
+    name: { ar: "دورة في عالم التواصل الاجتماعي", en: "Course in the world of social media" },
+    price: "5.00",
+    image: "https://imgur.com/gallery/bock-9OjNCvK",
+    paypalName: "Course in social media"
+  },
+  {
+    id: 4,
+    name: { ar: "قريباً", en: "Soon" },
+    price: "0.00",
+    image: "",
+    paypalName: "0.00"
+  },
+];
+let currentLang = 'ar';
+
+function renderProducts() {
+  const container = document.getElementById('product-list');
+  container.innerHTML = '';
+  products.forEach(product => {
+    container.innerHTML += `
+      <div class="product">
+        <img src="${product.image}" alt="">
+        <h3>${product.name[currentLang]}</h3>
+        <p>${product.price} US$</p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="businessgemo2@gmail.com">
+          <input type="hidden" name="item_name" value="${product.paypalName}">
+          <input type="hidden" name="amount" value="${product.price}">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="buy">${currentLang === 'ar' ? ' اشترِ الآن' : 'Buy Now'}</button>
+        </form>
+      </div>
+    `;
+  });
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('subtitle').innerText = currentLang === 'ar' ? 'متجر لبيع المنتجات الرقميه' : 'Digital products store';
+  document.getElementById('description').innerText = currentLang === 'ar'
+    ? 'ليش هيك عروضنا قويه؟ ارحم من في الارض يرحمك من في السماء'
+    : 'Why are our offers so strong? Be merciful to those on earth, and the One in heaven will have mercy upon you.';
+  document.querySelector('.lang-switch').innerText = currentLang === 'ar' ? 'EN' : 'AR';
+  renderProducts();
+}
+
+renderProducts();
+
+  </script>
+</body>
+</html>
